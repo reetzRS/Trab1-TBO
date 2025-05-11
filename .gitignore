@@ -1,0 +1,15 @@
+# Arquivos objeto e executáveis
+build/
+
+# Arquivos pessoais e temporários
+spec/
+inputs/
+outputs/
+notes/
+.vscode/
+
+# Documentação
+docs/
+Doxyfile
+
+# A medida que o trabalho for evoluindo vou alterando

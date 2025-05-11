@@ -1,0 +1,45 @@
+# Estilo base: LLVM, serve como ponto de partida
+BasedOnStyle: LLVM
+
+# Número de espaços por nível de indentação
+IndentWidth: 4
+
+# Usa apenas espaços para identação
+UseTab: Never
+
+# Número máximo de colunas por linha
+ColumnLimit: 80
+
+# Controla onde as chaves são colocadas
+# Stroustrup mantém chaves na mesma linha, exceto em funções
+BreakBeforeBraces: Stroustrup
+
+# Espaço antes de parênteses em comandos de controle (if, while, etc.)
+SpaceBeforeParens: ControlStatements
+
+# Permite funções curtas em uma única linha
+AllowShortFunctionsOnASingleLine: Inline
+
+# Número de espaços antes de comentários no fim da linha
+SpacesBeforeTrailingComments: 1
+
+# Evita reordenar automaticamente os #includes
+SortIncludes: false
+
+# Alinha itens entre colchetes quebrados em várias linhas
+AlignAfterOpenBracket: Align
+
+# Mantém alinhamento entre atribuições consecutivas
+AlignConsecutiveAssignments: false
+
+# Mantém alinhamento entre declarações consecutivas
+AlignConsecutiveDeclarations: false
+
+# Alinha comentários finais à direita de forma consistente
+AlignTrailingComments: true
+
+# Define o alinhamento de ponteiros para a esquerda
+PointerAlignment: Right
+
+# Define o posicionamento dos qualificadores em relação a ponteiros
+SpaceAroundPointerQualifiers: Default
