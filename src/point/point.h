@@ -15,6 +15,14 @@ typedef struct point Point;
 Point *point_construct(int dimension, int *coordinate, char *id, int id_len);
 
 /**
+ * @brief Retorna a dimensão do ponto
+ * 
+ * @param p Ponto que vai ter a dimensão retornada.
+ * @returns Dimensão do ponto.
+ */
+ int get_dimension_point(Point *p);
+
+/**
  * @brief Função que libera o espaço alocado para o ponto.
  *
  * @param p: Ponteiro para o ponto a ser liberado.
