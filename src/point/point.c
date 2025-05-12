@@ -26,6 +26,11 @@ Point *point_construct(int dimension, int *coordinate, char *id, int id_len)
 
     p->coordinate = calloc(dimension, sizeof(int));
     p->id = calloc(id_len, sizeof(char));
+
+    memcpy(p->coordinate, coordinate, sizeof(coordinate));
+    memcpy(p->id, id, sizeof(id));
+
+    return p;
 }
 
 int get_dimension_point(Point *p)
@@ -46,6 +51,22 @@ char *get_id_point(Point *p)
 int get_id_len_point(Point *p)
 {
     return p->id_len;
+}
+
+double two_points_distance(Point *p1, Point *p2)
+{
+    double distance;
+    double sum = 0;
+
+    for(int i = 0; i < p1->dimension; i++)
+    {
+        sum += pow((p2->coordinate[i] - p1->coordinate[i]), 2);
+        printf("sum: %f\n", sum);
+    }
+
+    distance = sqrt(sum);
+
+    return distance;
 }
 
 void point_destroy(Point *p)
