@@ -12,23 +12,23 @@
  */
 struct point {
     int dimension;
-    int *coordinate;
+    float *coordinate;
     char *id;
     int id_len;
 };
 
-Point *point_construct(int dimension, int *coordinate, char *id, int id_len)
+Point *point_construct(int dimension, float *coordinate, char *id, int id_len)
 {
     Point *p = malloc(sizeof(Point));
 
     p->dimension = dimension;
     p->id_len = id_len;
 
-    p->coordinate = calloc(dimension, sizeof(int));
-    p->id = calloc(id_len, sizeof(char));
+    p->coordinate = calloc(p->dimension, sizeof(float));
+    p->id = calloc(p->id_len, sizeof(char));
 
-    memcpy(p->coordinate, coordinate, sizeof(coordinate));
-    memcpy(p->id, id, sizeof(id));
+    memcpy(p->coordinate, coordinate, p->dimension * sizeof(float));
+    memcpy(p->id, id, p->id_len * sizeof(char));
 
     return p;
 }
@@ -38,7 +38,7 @@ int get_dimension_point(Point *p)
     return p->dimension;
 }
 
-int *get_coordinate_point(Point *p)
+float *get_coordinate_point(Point *p)
 {
     return p->coordinate;
 }
@@ -59,10 +59,7 @@ double two_points_distance(Point *p1, Point *p2)
     double sum = 0;
 
     for(int i = 0; i < p1->dimension; i++)
-    {
         sum += pow((p2->coordinate[i] - p1->coordinate[i]), 2);
-        printf("sum: %f\n", sum);
-    }
 
     distance = sqrt(sum);
 

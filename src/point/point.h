@@ -12,7 +12,7 @@ typedef struct point Point;
  * @param id_len Tamanho do identificador do ponto.
  * @returns Ponteiro para o ponto com coordenada e identificador atribuídos.
  */
-Point *point_construct(int dimension, int *coordinate, char *id, int id_len);
+Point *point_construct(int dimension, float *coordinate, char *id, int id_len);
 
 /**
  * @brief Retorna a dimensão do ponto.
@@ -28,7 +28,7 @@ Point *point_construct(int dimension, int *coordinate, char *id, int id_len);
   * @param p Ponto que vai ter as coordenadas retornadas.
   * @return Coordenadas do ponto.
   */
- int *get_coordinate_point(Point *p);
+ float *get_coordinate_point(Point *p);
 
  /**
   * @brief Retorna o ID único do ponto
