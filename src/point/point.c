@@ -12,20 +12,62 @@
  */
 struct point {
     int dimension;
-    int *coordinate;
+    float *coordinate;
     char *id;
     int id_len;
 };
 
-Point *point_construct(int dimension, int *coordinate, char *id, int id_len)
+Point *point_construct(int dimension, float *coordinate, char *id, int id_len)
 {
     Point *p = malloc(sizeof(Point));
 
     p->dimension = dimension;
     p->id_len = id_len;
 
-    p->coordinate = calloc(dimension, sizeof(int));
-    p->id = calloc(id_len, sizeof(char));
+    // Aloca as coordenadas e o id, baseado nos valores do arquivo
+    p->coordinate = calloc(p->dimension, sizeof(float));
+    p->id = calloc(p->id_len, sizeof(char));
+
+    // Cria uma cópia, já que os valores do parâmetro vão ser reutilizados
+    memcpy(p->coordinate, coordinate, p->dimension * sizeof(float));
+    memcpy(p->id, id, p->id_len * sizeof(char));
+
+    return p;
+}
+
+int get_dimension_point(Point *p)
+{
+    return p->dimension;
+}
+
+float *get_coordinate_point(Point *p)
+{
+    return p->coordinate;
+}
+
+char *get_id_point(Point *p)
+{
+    return p->id;
+}
+
+int get_id_len_point(Point *p)
+{
+    return p->id_len;
+}
+
+double two_points_distance(Point *p1, Point *p2)
+{
+    double distance;
+    double sum = 0;
+
+    // O loop faz a somatória do quadrado da diferença das coordenadas
+    for (int i = 0; i < p1->dimension; i++)
+        sum += pow((p2->coordinate[i] - p1->coordinate[i]), 2);
+
+    // A distância é a raiz do somatório calculado acima
+    distance = sqrt(sum);
+
+    return distance;
 }
 
 void point_destroy(Point *p)
