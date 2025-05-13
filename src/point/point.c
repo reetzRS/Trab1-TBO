@@ -19,7 +19,7 @@ struct point {
 
 Point *point_construct(int dimension, float *coordinate, char *id, int id_len)
 {
-    Point *p = malloc(sizeof(Point));
+    Point *p = (Point *)malloc(sizeof(Point));
 
     p->dimension = dimension;
     p->id_len = id_len;
