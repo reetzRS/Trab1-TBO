@@ -24,9 +24,11 @@ Point *point_construct(int dimension, float *coordinate, char *id, int id_len)
     p->dimension = dimension;
     p->id_len = id_len;
 
+    // Aloca as coordenadas e o id, baseado nos valores do arquivo
     p->coordinate = calloc(p->dimension, sizeof(float));
     p->id = calloc(p->id_len, sizeof(char));
 
+    // Cria uma cópia, já que os valores do parâmetro vão ser reutilizados
     memcpy(p->coordinate, coordinate, p->dimension * sizeof(float));
     memcpy(p->id, id, p->id_len * sizeof(char));
 
@@ -58,9 +60,11 @@ double two_points_distance(Point *p1, Point *p2)
     double distance;
     double sum = 0;
 
-    for(int i = 0; i < p1->dimension; i++)
+    // O loop faz a somatória do quadrado da diferença das coordenadas
+    for (int i = 0; i < p1->dimension; i++)
         sum += pow((p2->coordinate[i] - p1->coordinate[i]), 2);
 
+    // A distância é a raiz do somatório calculado acima
     distance = sqrt(sum);
 
     return distance;
