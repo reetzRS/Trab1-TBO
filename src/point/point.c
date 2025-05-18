@@ -12,12 +12,12 @@
  */
 struct point {
     int dimension;
-    float *coordinate;
+    double *coordinate;
     char *id;
     int id_len;
 };
 
-Point *point_construct(int dimension, float *coordinate, char *id, int id_len)
+Point *point_construct(int dimension, double *coordinate, char *id, int id_len)
 {
     Point *p = (Point *)malloc(sizeof(Point));
 
@@ -25,11 +25,11 @@ Point *point_construct(int dimension, float *coordinate, char *id, int id_len)
     p->id_len = id_len;
 
     // Aloca as coordenadas e o id, baseado nos valores do arquivo
-    p->coordinate = calloc(p->dimension, sizeof(float));
+    p->coordinate = calloc(p->dimension, sizeof(double));
     p->id = calloc(p->id_len, sizeof(char));
 
     // Cria uma cópia, já que os valores do parâmetro vão ser reutilizados
-    memcpy(p->coordinate, coordinate, p->dimension * sizeof(float));
+    memcpy(p->coordinate, coordinate, p->dimension * sizeof(double));
     memcpy(p->id, id, p->id_len * sizeof(char));
 
     return p;
@@ -40,7 +40,7 @@ int get_dimension_point(Point *p)
     return p->dimension;
 }
 
-float *get_coordinate_point(Point *p)
+double *get_coordinate_point(Point *p)
 {
     return p->coordinate;
 }
