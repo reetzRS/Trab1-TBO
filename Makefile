@@ -17,7 +17,7 @@ clean:
 
 
 test_graph:
-	gcc -g src/main.c src/graph/graph.c src/point/point.c -o build/trab1 -lm
+	gcc -g src/main.c src/graph/graph.c src/point/point.c inputs/test.c -o build/trab1 -lm
 
 valgrind:
-	valgrind --leak-check=full ./build/trab1
+	valgrind --leak-check=full ./build/trab1 > outputs/saida.txt

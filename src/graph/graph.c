@@ -71,7 +71,7 @@ Graph *graph_construct(Point **vertices, int size)
 
     /**
      * A quantidade de arestas está em relação para n vértices da seguinte
-     * forma: n = número de vértices => m =(n*(n+1))/2 = numero de arestas
+     * forma: n = número de vértices => m =(n*(n-1))/2 = numero de arestas
      */
     g->size = size;                         // Número de vértices
     g->edge_size = (size * (size - 1)) / 2; // Número de arestas
@@ -84,6 +84,7 @@ Graph *graph_construct(Point **vertices, int size)
     g->sorted_edges = (Edge *)calloc(g->edge_size, sizeof(Edge));
 
     g->vertices = vertices;
+
     set_edges_matrix(g);
     set_sorted_edges(g);
 
