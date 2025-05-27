@@ -1,5 +1,5 @@
 CC = gcc
-SRC = src/main.c src/point/point.c src/graph/graph.c
+SRC = src/main.c src/point/point.c src/graph/graph.c src/kruskal/kruskal.c
 OBJ = $(SRC:src/%.c=build/%.o)
 BIN = build/trab1
 

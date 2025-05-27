@@ -86,4 +86,12 @@ void set_sorted_edges(Graph *g);
  */
 void graph_destroy(Graph *g);
 
+int graph_get_num_vertices(Graph *graph);
+int graph_get_num_edges(Graph *graph);
+Edge *graph_get_edge(Graph *graph, int index);
+
+int edge_get_src(Edge *edge);
+int edge_get_dest(Edge *edge);
+double edge_get_weight(Edge *edge);
+
 #endif
