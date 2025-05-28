@@ -137,12 +137,39 @@ void sort_edges(Graph *g)
 void set_sorted_edges(Graph *g)
 {
     /**
-     * Copia o vetor de arestas para gerar um vetor ordenado separado.
+     * Copia o vetor de arestas para gerar um vetor ordenado separado
      */
     memcpy(g->sorted_edges, g->edges_matrix, g->edge_size * sizeof(Edge));
 
     sort_edges(g);
 }
+
+int graph_get_num_vertices(Graph *graph) {
+    return graph->size;
+}
+
+int graph_get_num_edges(Graph *graph) {
+    return graph->edge_size;
+}
+
+Edge *graph_get_sorted_edge(Graph *graph, int index) {
+    if (index >= 0 && index < graph->edge_size)
+        return &graph->sorted_edges[index];
+    return NULL;
+}
+
+int edge_get_p1(Edge *e) {
+    return e->p1;
+}
+
+int edge_get_p2(Edge *e) {
+    return e->p2;
+}
+
+double edge_get_weight(Edge *e) {
+    return e->edge_weight;
+}
+
 
 void graph_destroy(Graph *g)
 {
