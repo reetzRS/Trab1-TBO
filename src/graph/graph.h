@@ -15,12 +15,13 @@ typedef struct graph Graph;
  */
 Graph *graph_construct(Point **vertices, int size);
 
-/**
- * @brief Preenche a matriz com as distâncias entre os pontos
- *
- * @param g Estrutura que contém o conjunto de pontos para calcular a matriz
- */
-void set_edges_matrix(Graph *g);
+int graph_get_num_vertices(Graph *graph);
+int graph_get_num_edges(Graph *graph);
+Edge *graph_get_edge(Graph *graph, int index);
+
+int edge_get_src(Edge *edge);
+int edge_get_dest(Edge *edge);
+double edge_get_weight(Edge *edge);
 
 /**
  * @brief Retorna uma aresta entre os vértices i e j
@@ -50,27 +51,11 @@ Edge *get_sorted_edges(Graph *g);
 double get_sorted_edge_weight(Graph *g, int i);
 
 /**
- * @brief Mapeia uma matriz de arestas em um índice de um vetor unidimensional
+ * @brief Preenche a matriz com as distâncias entre os pontos
  *
- * @param i Índice da linha da matriz
- * @param j Índice da coluna da matriz
- * @param size Quantidade de linhas/colunas da matriz quadrada
- * @return Retorna o valor do elemento (i,j) chaveado em um vetor
- *
- * A ideia dessa função é possibilitar o armazenamento das arestas em um vetor
- * unidimensional, visto que em uma matriz size * size, as arestas só ocupariam
- * o equivalente a uma matriz triangular sem a diagonal principal. Então,
- * mapeando esses valores em um vetor menor, economizamos em número de alocações
- * e possível custo de acesso.
+ * @param g Estrutura que contém o conjunto de pontos para calcular a matriz
  */
-int map_edge_matrix(int i, int j, int size);
-
-/**
- * @brief Função para ordenação das arestas
- *
- * @param g Estrutura que contém o vetor de arestas
- */
-void sort_edges(Graph *g);
+void set_edges_matrix(Graph *g);
 
 /**
  * @brief Inicializa o vetor de arestas ordenado
@@ -80,18 +65,17 @@ void sort_edges(Graph *g);
 void set_sorted_edges(Graph *g);
 
 /**
+ * @brief Função para ordenação das arestas
+ *
+ * @param g Estrutura que contém o vetor de arestas
+ */
+void sort_edges(Graph *g);
+
+/**
  * @brief Função que libera o espaço da estrutura
  *
  * @param g Estrura contendo os vértices e arestas para ser desalocada
  */
 void graph_destroy(Graph *g);
-
-int graph_get_num_vertices(Graph *graph);
-int graph_get_num_edges(Graph *graph);
-Edge *graph_get_edge(Graph *graph, int index);
-
-int edge_get_src(Edge *edge);
-int edge_get_dest(Edge *edge);
-double edge_get_weight(Edge *edge);
 
 #endif

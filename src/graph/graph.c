@@ -2,8 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../point/point.h"
 #include "graph.h"
 
+/**
+ * @struct edge
+ * @brief Estrutura que armazena vértice/distância e os 2 pontos que conecta
+ */
 struct edge {
     double edge_weight;
     int p1;
@@ -11,8 +16,8 @@ struct edge {
 };
 
 /**
+ * @struct graph
  * @brief Estrutura que vai representar o grafo, com os vetices e arestas
- *
  */
 struct graph {
     int size;
@@ -40,6 +45,14 @@ int comp_edge_weight(const void *a, const void *b)
     return 0;
 }
 
+/**
+ * @brief Função para mapear as arestas em um vetor de tamanho (n*(n-1))/2
+ *
+ * @param i Índice do ponto i
+ * @param j Índice do ponto j
+ * @param size Valor n, onde n é a quantidade de pontos
+ * @return Retorna o índice do vetor para a aresta entre i e j
+ */
 int map_edge_matrix(int i, int j, int size)
 {
     /**
@@ -84,6 +97,13 @@ Graph *graph_construct(Point **vertices, int size)
     g->sorted_edges = (Edge *)calloc(g->edge_size, sizeof(Edge));
 
     g->vertices = vertices;
+
+    /**
+     * Ordena os vértices antes de fazer o kruskal pra simplificar o processo de
+     * separação dos grupos de forma ordenada (Economiza a ordenação dos k
+     * grupos). Mais explicações na função de clustering.
+     */
+    sort_points(g->vertices, g->size);
 
     set_edges_matrix(g);
     set_sorted_edges(g);
@@ -144,32 +164,37 @@ void set_sorted_edges(Graph *g)
     sort_edges(g);
 }
 
-int graph_get_num_vertices(Graph *graph) {
+int graph_get_num_vertices(Graph *graph)
+{
     return graph->size;
 }
 
-int graph_get_num_edges(Graph *graph) {
+int graph_get_num_edges(Graph *graph)
+{
     return graph->edge_size;
 }
 
-Edge *graph_get_sorted_edge(Graph *graph, int index) {
+Edge *graph_get_sorted_edge(Graph *graph, int index)
+{
     if (index >= 0 && index < graph->edge_size)
         return &graph->sorted_edges[index];
     return NULL;
 }
 
-int edge_get_p1(Edge *e) {
+int edge_get_p1(Edge *e)
+{
     return e->p1;
 }
 
-int edge_get_p2(Edge *e) {
+int edge_get_p2(Edge *e)
+{
     return e->p2;
 }
 
-double edge_get_weight(Edge *e) {
+double edge_get_weight(Edge *e)
+{
     return e->edge_weight;
 }
-
 
 void graph_destroy(Graph *g)
 {

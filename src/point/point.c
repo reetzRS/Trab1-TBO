@@ -8,7 +8,6 @@
 /**
  * @struct point
  * @brief Estrutura que armazena um ponto e seu identificador.
- *
  */
 struct point {
     int dimension;
@@ -16,6 +15,21 @@ struct point {
     char *id;
     int id_len;
 };
+
+/**
+ * @brief Função interna do tipo pra comparar o ID dos pontos.
+ *
+ * @param a Ponto 1
+ * @param b Ponto 2
+ * @return Valor da comparação entre os ID's
+ */
+int comp_point_ID(const void *a, const void *b)
+{
+    Point *p1 = (Point *)a;
+    Point *p2 = (Point *)b;
+
+    return strcmp(get_id_point(p1), get_id_point(p2));
+}
 
 Point *point_construct(int dimension, double *coordinate, char *id, int id_len)
 {
@@ -68,6 +82,11 @@ double two_points_distance(Point *p1, Point *p2)
     distance = sqrt(sum);
 
     return distance;
+}
+
+void sort_points(Point **p, int n)
+{
+    qsort(p, n, sizeof(Point), comp_point_ID);
 }
 
 void point_destroy(Point *p)
