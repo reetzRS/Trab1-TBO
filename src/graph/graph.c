@@ -24,7 +24,6 @@ struct graph {
     int edge_size;
     Point **vertices;
     Edge *edges_matrix;
-    Edge *sorted_edges;
 };
 
 /**
@@ -46,7 +45,18 @@ int comp_edge_weight(const void *a, const void *b)
 }
 
 /**
- * @brief Função para mapear as arestas em um vetor de tamanho (n*(n-1))/2
+ * @brief Função interna para ordenação das arestas
+ *
+ * @param g Estrutura que contém o vetor de arestas
+ */
+void sort_edges(Graph *g)
+{
+    qsort(g->edges_matrix, g->edge_size, sizeof(Edge), comp_edge_weight);
+}
+
+/**
+ * @brief Função interna para mapear as arestas em um vetor de tamanho
+ * (n*(n-1))/2
  *
  * @param i Índice do ponto i
  * @param j Índice do ponto j
@@ -94,7 +104,6 @@ Graph *graph_construct(Point **vertices, int size)
      * através dos índices dos vértices associados.
      */
     g->edges_matrix = (Edge *)calloc(g->edge_size, sizeof(Edge));
-    g->sorted_edges = (Edge *)calloc(g->edge_size, sizeof(Edge));
 
     g->vertices = vertices;
 
@@ -106,9 +115,45 @@ Graph *graph_construct(Point **vertices, int size)
     sort_points(g->vertices, g->size);
 
     set_edges_matrix(g);
-    set_sorted_edges(g);
 
     return g;
+}
+
+int get_edge_p1(Edge *e)
+{
+    return e->p1;
+}
+
+int get_edge_p2(Edge *e)
+{
+    return e->p2;
+}
+
+double get_edge_weight(Edge *e)
+{
+    return e->edge_weight;
+}
+
+Point **get_graph_vertices(Graph *g)
+{
+    return g->vertices;
+}
+
+Edge *get_graph_edge(Graph *g, int i)
+{
+    Edge e = g->edges_matrix[i];
+
+    return &e;
+}
+
+int get_graph_num_vertices(Graph *g)
+{
+    return g->size;
+}
+
+int get_graph_num_edges(Graph *g)
+{
+    return g->edge_size;
 }
 
 void set_edges_matrix(Graph *g)
@@ -130,76 +175,13 @@ void set_edges_matrix(Graph *g)
             g->edges_matrix[key].p2 = j;
         }
     }
-}
-
-double get_edge_weight(Edge *e, int i, int j, int size)
-{
-    int pos = map_edge_matrix(i, j, size);
-
-    return e[pos].edge_weight;
-}
-
-Edge *get_sorted_edges(Graph *g)
-{
-    return g->sorted_edges;
-}
-
-double get_sorted_edge_weight(Graph *g, int i)
-{
-    double weight = g->sorted_edges[i].edge_weight;
-}
-
-void sort_edges(Graph *g)
-{
-    qsort(g->sorted_edges, g->edge_size, sizeof(Edge), comp_edge_weight);
-}
-
-void set_sorted_edges(Graph *g)
-{
-    /**
-     * Copia o vetor de arestas para gerar um vetor ordenado separado
-     */
-    memcpy(g->sorted_edges, g->edges_matrix, g->edge_size * sizeof(Edge));
 
     sort_edges(g);
-}
-
-int graph_get_num_vertices(Graph *graph)
-{
-    return graph->size;
-}
-
-int graph_get_num_edges(Graph *graph)
-{
-    return graph->edge_size;
-}
-
-Edge *graph_get_sorted_edge(Graph *graph, int index)
-{
-    if (index >= 0 && index < graph->edge_size)
-        return &graph->sorted_edges[index];
-    return NULL;
-}
-
-int edge_get_p1(Edge *e)
-{
-    return e->p1;
-}
-
-int edge_get_p2(Edge *e)
-{
-    return e->p2;
-}
-
-double edge_get_weight(Edge *e)
-{
-    return e->edge_weight;
 }
 
 void graph_destroy(Graph *g)
 {
     free(g->vertices);
     free(g->edges_matrix);
-    free(g->sorted_edges);
     free(g);
 }

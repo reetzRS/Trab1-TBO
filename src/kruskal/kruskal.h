@@ -3,18 +3,10 @@
 
 #include "../graph/graph.h"
 
-// Estrutura para Union-Find
-typedef struct {
-    int *parent;
-    int *rank;
-    int size;
-} UnionFind;
+typedef struct tree Tree;
+typedef struct mst Mst;
+typedef struct clusters Clusters;
 
-UnionFind *uf_create(int n);
-void uf_free(UnionFind *uf);
-int uf_find(UnionFind *uf, int i);
-void uf_union(UnionFind *uf, int i, int j);
-
-Edge **kruskal(Graph *g, int *mst_size);
+Mst *kruskal(Graph *g, int k);
 
 #endif
