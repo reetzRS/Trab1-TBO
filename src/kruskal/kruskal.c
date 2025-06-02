@@ -10,6 +10,7 @@ struct tree {
 struct mst {
     UnionFind *uf;
     Tree *t;
+    int size;
 };
 
 struct clusters {
@@ -20,15 +21,20 @@ struct clusters {
 Tree *tree_construct()
 {
     Tree *t = (Tree *)malloc(sizeof(Tree));
+    t->vertices = (Point **)calloc(1, sizeof(Point *));
+    t->vertices[0] = NULL;
+
+    t->size = 0;
 
     return t;
 }
 
-Mst *mst_construct(Tree *t, UnionFind *uf)
+Mst *mst_construct(Tree *t, UnionFind *uf, int n)
 {
     Mst *mst = (Mst *)malloc(sizeof(Mst));
     mst->t = t;
     mst->uf = uf;
+    mst->size = n;
 
     return mst;
 }
@@ -46,13 +52,23 @@ Clusters *clusters_construct(int k)
     return c;
 }
 
+int get_cluster_component_id(Tree *t, int i)
+{
+    return get_id_point(t->vertices[i]);
+}
+
+void set_cluster_component(Tree *t, Point *vertex, int i)
+{
+    t->vertices[i] = vertex;
+}
+
 // Modificar a funcao kruskal para retornar arestas ordenadas
 Mst *kruskal(Graph *g, int k)
 {
     int n = get_graph_num_vertices(g);
     int total_edges = get_graph_num_edges(g);
     UnionFind *uf = uf_create(n);
-    Mst *mst = mst_construct(get_graph_vertices(g), uf);
+    Mst *mst = mst_construct(get_graph_vertices(g), uf, n);
 
     int count = 0;
 
@@ -66,6 +82,25 @@ Mst *kruskal(Graph *g, int k)
     }
 
     return mst;
+}
+
+Clusters *clustering(Mst *m, int k)
+{
+    int cluster_count = 0;
+
+    int *component = (int *)calloc(m->size, sizeof(int));
+
+    Clusters *c = clusters_construct(k);
+    for (int i = 0; i < m->size; i++) {
+        int found = 0;
+        for (int j = 0; j < cluster_count; j++) {
+            int cluster_root = get_cluster_component_id(c->cluster[j], 0);
+            if (component[i] == uf_find(m->uf, cluster_root)) {
+                // Preciso ver como atribuir component corretamente pra fazer as
+                // comparações.
+            }
+        }
+    }
 }
 
 void tree_destroy(Tree *t)
