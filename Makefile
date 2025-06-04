@@ -1,5 +1,5 @@
 CC = gcc
-SRC = src/main.c src/point/point.c src/graph/graph.c
+SRC = src/main.c src/point/point.c src/graph/graph.c src/kruskal/kruskal.c
 OBJ = $(SRC:src/%.c=build/%.o)
 BIN = build/trab1
 
@@ -13,11 +13,11 @@ build/%.o: src/%.c
 	$(CC) -c $< -o $@
 
 clean:
-	rm -rf build/
+	rm -rf build/*
 
 
-test_graph:
-	gcc -g src/main.c src/graph/graph.c src/point/point.c -o build/trab1 -lm
+testing:
+	gcc -g src/main.c src/graph/graph.c src/point/point.c src/io/io.c src/kruskal/kruskal.c src/union_find/union_find.c -o build/trab1 -lm
 
 valgrind:
-	valgrind --leak-check=full ./build/trab1
+	valgrind --leak-check=full ./build/trab1 > outputs/saida.txt

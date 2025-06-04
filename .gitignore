@@ -3,8 +3,6 @@ build/
 
 # Arquivos pessoais e temporários
 spec/
-inputs/
-outputs/
 notes/
 .vscode/
 
@@ -12,5 +10,6 @@ notes/
 docs/
 Doxyfile
 
-# A medida que o trabalho for evoluindo vou alterando
-Makefile
+# A medida que o trabalho for evoluindo dá pra alterar alguma coisa que
+# a gente queira adicionar/remover a mais do repositório e também subir
+# os inputs/outputs esperados

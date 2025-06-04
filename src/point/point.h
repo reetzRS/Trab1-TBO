@@ -47,13 +47,21 @@ char *get_id_point(Point *p);
 int get_id_len_point(Point *p);
 
 /**
- * @brief Retorna a distância euclidiana entre dois pontos
+ * @brief Retorna a distância euclidiana entre dois pontos.
  *
  * @param p1 Ponto 1.
  * @param p2 Ponto 2.
  * @return Distância euclidiana entre os dois pontos passados como parâmetro
  */
 double two_points_distance(Point *p1, Point *p2);
+
+/**
+ * @brief Função que ordena uma lista de pontos.
+ *
+ * @param p Lista que contém os ponteiros de cada ponto
+ * @param n Número n de pontos da lista
+ */
+void sort_points(Point **p, int n);
 
 /**
  * @brief Função que libera o espaço alocado para o ponto.
