@@ -1,0 +1,7 @@
+Tempo de leitura: 0.016365
+Tempo de cálculo de distâncias e ordenações: 5.146707
+Tempo de kruskal: 0.024734
+Tempo de clustering: 0.001144
+Tempo de escrita: 0.002112
+Tempo de destroy: 0.006803
+Tempo geral: 5.197865

@@ -57,10 +57,9 @@ void write_clusters(const char *filename, Clusters *c)
     for (int i = 0; i < get_clusters_k(c); i++) {
         for (int j = 0; j < get_cluster_size(c, i); j++) {
             fprintf(file, "%s%s", get_cluster_id_point(c, i, j),
-                    (j < get_cluster_size(c, i) - 1) ? ", " : "");
+                    (j < get_cluster_size(c, i) - 1) ? "," : "\n");
             cluster_point_destroy(c, i, j);
         }
-        fprintf(file, "\n");
     }
 
     fclose(file);
