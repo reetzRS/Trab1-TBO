@@ -13,11 +13,11 @@ build/%.o: src/%.c
 	$(CC) -c $< -o $@
 
 clean:
-	rm -rf build/
+	rm -rf build/*
 
 
-test_graph:
-	gcc -g src/main.c src/graph/graph.c src/point/point.c inputs/test.c -o build/trab1 -lm
+testing:
+	gcc -g src/main.c src/graph/graph.c src/point/point.c src/io/io.c src/kruskal/kruskal.c src/union_find/union_find.c -o build/trab1 -lm
 
 valgrind:
 	valgrind --leak-check=full ./build/trab1 > outputs/saida.txt

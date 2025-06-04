@@ -16,14 +16,13 @@ typedef struct graph Graph;
 Graph *graph_construct(Point **vertices, int size);
 
 /**
- * @brief Retorna uma aresta entre os vértices i e j
+ * @brief Retorna o peso de uma aresta
  *
- * @param e Vetor contendo as arestas
- * @param i Vértice i
- * @param j Vértice j
- * @return Distância entre os pontos i e j
+ * @param g Grafo contendo as arestas
+ * @param i Índice da aresta na lista
+ * @return Distância representada pela aresta
  */
-double get_edge_weight(Edge *e);
+double get_edge_weight(Graph *g, int i);
 
 /**
  * @brief Retorna o índice do vértice de partida dessa aresta
@@ -31,7 +30,7 @@ double get_edge_weight(Edge *e);
  * @param e Aresta
  * @return Valor do índice dentro do array ordenado de vértices
  */
-int edge_get_src(Edge *e);
+int edge_get_src(Graph *g, int i);
 
 /**
  * @brief Retorna o índice do vértice de chegada dessa aresta
@@ -39,7 +38,7 @@ int edge_get_src(Edge *e);
  * @param e Aresta
  * @return Valor do índice dentro do array ordenado de vértices
  */
-int edge_get_dest(Edge *e);
+int edge_get_dest(Graph *g, int i);
 
 /**
  * @brief Retorna o valor do peso/distância que a aresta representa
@@ -64,7 +63,7 @@ Point **get_graph_vertices(Graph *g);
  * @param i Índice da aresta buscada
  * @return Estrutura da aresta
  */
-Edge *get_graph_edge(Graph *g, int i);
+Edge get_graph_edge(Graph *g, int i);
 
 /**
  * @brief Retorna a quantidade de vértices do grafo

@@ -15,8 +15,14 @@ char *get_cluster_id_point(Clusters *c, int i, int j);
 
 Mst *kruskal(Graph *g, int k);
 
+Clusters *clustering(Mst *m, int k);
+
 void cluster_point_destroy(Clusters *c, int i, int j);
 
+int get_root_mst(Mst *m, int i);
+
 void clusters_destroy(Clusters *c);
+
+void mst_destroy(Mst *m);
 
 #endif

@@ -119,19 +119,22 @@ Graph *graph_construct(Point **vertices, int size)
     return g;
 }
 
-int get_edge_p1(Edge *e)
+int edge_get_src(Graph *g, int i)
 {
-    return e->p1;
+    Edge e = get_graph_edge(g, i);
+    return e.p1;
 }
 
-int get_edge_p2(Edge *e)
+int edge_get_dest(Graph *g, int i)
 {
-    return e->p2;
+    Edge e = get_graph_edge(g, i);
+    return e.p2;
 }
 
-double get_edge_weight(Edge *e)
+double get_edge_weight(Graph *g, int i)
 {
-    return e->edge_weight;
+    double weigth = g->edges_matrix[i].edge_weight;
+    return weigth;
 }
 
 Point **get_graph_vertices(Graph *g)
@@ -139,11 +142,11 @@ Point **get_graph_vertices(Graph *g)
     return g->vertices;
 }
 
-Edge *get_graph_edge(Graph *g, int i)
+Edge get_graph_edge(Graph *g, int i)
 {
     Edge e = g->edges_matrix[i];
 
-    return &e;
+    return e;
 }
 
 int get_graph_num_vertices(Graph *g)
@@ -181,7 +184,6 @@ void set_edges_matrix(Graph *g)
 
 void graph_destroy(Graph *g)
 {
-    free(g->vertices);
     free(g->edges_matrix);
     free(g);
 }

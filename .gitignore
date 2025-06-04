@@ -3,8 +3,6 @@ build/
 
 # Arquivos pessoais e temporários
 spec/
-inputs/
-outputs/
 notes/
 .vscode/
 

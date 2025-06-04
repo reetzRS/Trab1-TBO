@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "kruskal.h"
 #include "../graph/graph.h"
@@ -16,23 +17,23 @@ struct mst {
 struct clusters {
     Tree **cluster;
     int k;
+    int *cluster_root;
 };
 
 Tree *tree_construct()
 {
     Tree *t = (Tree *)malloc(sizeof(Tree));
-    t->vertices = (Point **)calloc(1, sizeof(Point *));
-    t->vertices[0] = NULL;
+    t->vertices = NULL;
 
     t->size = 0;
 
     return t;
 }
 
-Mst *mst_construct(Tree *t, UnionFind *uf, int n, Point **vertices)
+Mst *mst_construct(UnionFind *uf, int n, Point **vertices)
 {
     Mst *mst = (Mst *)malloc(sizeof(Mst));
-    mst->t = t;
+    mst->t = tree_construct();
     mst->t->vertices = vertices;
     mst->uf = uf;
     mst->size = n;
@@ -43,8 +44,9 @@ Mst *mst_construct(Tree *t, UnionFind *uf, int n, Point **vertices)
 
 Clusters *clusters_construct(int k)
 {
-    Clusters *c = (Clusters *)malloc(k * sizeof(Clusters));
-    c->cluster = (Tree **)malloc(sizeof(Tree *));
+    Clusters *c = (Clusters *)malloc(sizeof(Clusters));
+    c->cluster = (Tree **)malloc(k * sizeof(Tree *));
+    c->cluster_root = (int *)malloc(k * sizeof(int));
 
     c->k = k;
 
@@ -65,11 +67,6 @@ int get_clusters_k(Clusters *c)
     return c->k;
 }
 
-int get_cluster_component_id(Tree *t, int i)
-{
-    return get_id_point(t->vertices[i]);
-}
-
 char *get_cluster_id_point(Clusters *c, int i, int j)
 {
     char *id = get_id_point(c->cluster[i]->vertices[j]);
@@ -83,7 +80,7 @@ Point *get_cluster_point(Clusters *c, int i, int j)
 
 void set_cluster_component(Tree *t, Point *vertex, int i)
 {
-    t->vertices[i] = vertex;
+    t->vertices[i - 1] = vertex;
 }
 
 // Modificar a funcao kruskal para retornar arestas ordenadas
@@ -92,16 +89,17 @@ Mst *kruskal(Graph *g, int k)
     int n = get_graph_num_vertices(g);
     int total_edges = get_graph_num_edges(g);
     UnionFind *uf = uf_create(n);
-    Mst *mst = mst_construct(tree_construct(), uf, n, get_graph_vertices(g));
+    Mst *mst = mst_construct(uf, n, get_graph_vertices(g));
 
     int count = 0;
 
     for (int i = 0; i < total_edges && count < n - k; ++i) {
-        int u = edge_get_src(get_graph_edge(g, i));
-        int v = edge_get_dest(get_graph_edge(g, i));
+        int u = edge_get_src(g, i);
+        int v = edge_get_dest(g, i);
 
         if (uf_find(uf, u) != uf_find(uf, v)) {
             uf_union(uf, u, v);
+            count++;
         }
     }
 
@@ -115,28 +113,37 @@ Clusters *clustering(Mst *m, int k)
     Clusters *c = clusters_construct(k);
     for (int i = 0; i < m->size; i++) {
         int found = 0;
-        int component = uf_find(m->uf, m->t->vertices[i]);
+        int component = uf_find(m->uf, i);
 
         for (int j = 0; j < cluster_count; j++) {
-            int cluster_root = get_cluster_component_id(c->cluster[j], 0);
-
-            // Poderia otimizar finds criando um vetor com os k roots
-            if (component == uf_find(m->uf, cluster_root)) {
+            if (component == uf_find(m->uf, c->cluster_root[j])) {
                 c->cluster[j]->size++;
-                realloc(c->cluster[j], c->cluster[j]->size * sizeof(Tree));
+                c->cluster[j]->vertices =
+                    realloc(c->cluster[j]->vertices,
+                            c->cluster[j]->size * sizeof(Point *));
                 set_cluster_component(c->cluster[j], m->t->vertices[i],
-                                      c->cluster[j]->size - 1);
+                                      c->cluster[j]->size);
                 found = 1;
             }
         }
 
         if (!found) {
+            c->cluster[cluster_count]->vertices = malloc(sizeof(Point *));
             set_cluster_component(c->cluster[cluster_count], m->t->vertices[i],
-                                  0);
+                                  1);
+            c->cluster_root[cluster_count] = uf_find(m->uf, i);
+            c->cluster[cluster_count]->size++;
             m->t->size++;
             cluster_count++;
         }
     }
+
+    return c;
+}
+
+int get_root_mst(Mst *m, int i)
+{
+    return uf_find(m->uf, i);
 }
 
 void tree_destroy(Tree *t)
@@ -163,5 +170,6 @@ void clusters_destroy(Clusters *c)
         tree_destroy(c->cluster[i]);
     }
     free(c->cluster);
+    free(c->cluster_root);
     free(c);
 }

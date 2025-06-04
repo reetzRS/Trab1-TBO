@@ -25,8 +25,8 @@ struct point {
  */
 int comp_point_ID(const void *a, const void *b)
 {
-    Point *p1 = (Point *)a;
-    Point *p2 = (Point *)b;
+    Point *p1 = *(Point **)a;
+    Point *p2 = *(Point **)b;
 
     return strcmp(get_id_point(p1), get_id_point(p2));
 }
@@ -40,7 +40,7 @@ Point *point_construct(int dimension, double *coordinate, char *id, int id_len)
 
     // Aloca as coordenadas e o id, baseado nos valores do arquivo
     p->coordinate = calloc(p->dimension, sizeof(double));
-    p->id = calloc(p->id_len, sizeof(char));
+    p->id = calloc(p->id_len + 1, sizeof(char));
 
     // Cria uma cópia, já que os valores do parâmetro vão ser reutilizados
     memcpy(p->coordinate, coordinate, p->dimension * sizeof(double));
@@ -86,7 +86,7 @@ double two_points_distance(Point *p1, Point *p2)
 
 void sort_points(Point **p, int n)
 {
-    qsort(p, n, sizeof(Point), comp_point_ID);
+    qsort(p, n, sizeof(Point *), comp_point_ID);
 }
 
 void point_destroy(Point *p)
