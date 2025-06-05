@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "../point/point.h"
 #include "graph.h"
@@ -92,6 +93,8 @@ Graph *graph_construct(Point **vertices, int size)
 {
     Graph *g = (Graph *)malloc(sizeof(Graph));
 
+    clock_t start, end;
+    double time_elapsed;
     /**
      * A quantidade de arestas está em relação para n vértices da seguinte
      * forma: n = número de vértices => m =(n*(n-1))/2 = numero de arestas
@@ -112,7 +115,11 @@ Graph *graph_construct(Point **vertices, int size)
      * separação dos grupos de forma ordenada (Economiza a ordenação dos k
      * grupos). Mais explicações na função de clustering.
      */
+    start = clock();
     sort_points(g->vertices, g->size);
+    end = clock();
+    time_elapsed = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Ordenação dos vértices: %f\n", time_elapsed);
 
     set_edges_matrix(g);
 
@@ -162,12 +169,14 @@ int get_graph_num_edges(Graph *g)
 void set_edges_matrix(Graph *g)
 {
     Point **p = g->vertices;
-
+    double time_elapsed;
+    clock_t start, end;
     /**
      * Percorre todas as possibilidades de conexão entre os vértices,
      * armazenando cada aresta com sua distância e o índice dos seus vértices
      * associados na "Matriz", que nesse caso será um vetor unidimensional.
      */
+    start = clock();
     for (int i = 0; i < g->size - 1; i++) {
         for (int j = i + 1; j < g->size; j++) {
             double d = two_points_distance(p[i], p[j]);
@@ -178,8 +187,15 @@ void set_edges_matrix(Graph *g)
             g->edges_matrix[key].p2 = j;
         }
     }
+    end = clock();
+    time_elapsed = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Cálculo das distâncias: %f\n", time_elapsed);
 
+    start = clock();
     sort_edges(g);
+    end = clock();
+    time_elapsed = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Ordenação das arestas: %f\n", time_elapsed);
 }
 
 void graph_destroy(Graph *g)

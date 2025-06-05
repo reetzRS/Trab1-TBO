@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     stop = clock();
     double time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
     general_time_taken += time_taken;
-    printf("Tempo de leitura: %f\n", time_taken);
+    printf("Letura dos dados: %f\n", time_taken);
 
     start = clock();
     Graph *g = graph_construct(points, num_points);
@@ -43,21 +43,21 @@ int main(int argc, char *argv[])
     stop = clock();
     time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
     general_time_taken += time_taken;
-    printf("Tempo de kruskal: %f\n", time_taken);
+    printf("Obtenção da MST: %f\n", time_taken);
 
     start = clock();
     Clusters *c = clustering(m, k);
     stop = clock();
     time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
     general_time_taken += time_taken;
-    printf("Tempo de clustering: %f\n", time_taken);
+    printf("Identificação dos grupos: %f\n", time_taken);
 
     start = clock();
     write_clusters(argv[3], c);
     stop = clock();
     time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
     general_time_taken += time_taken;
-    printf("Tempo de escrita: %f\n", time_taken);
+    printf("Escrita do arquivo de saída: %f\n", time_taken);
 
     start = clock();
     graph_destroy(g);
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     general_time_taken += time_taken;
     printf("Tempo de destroy: %f\n", time_taken);
 
-    printf("Tempo geral: %f\n", general_time_taken);
+    printf("Tempo total: %f\n", general_time_taken);
 
     return 0;
 }

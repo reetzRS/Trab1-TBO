@@ -1,7 +1,10 @@
-Tempo de leitura: 0.000727
-Tempo de cálculo de distâncias e ordenações: 0.153347
-Tempo de kruskal: 0.000828
-Tempo de clustering: 0.000172
-Tempo de escrita: 0.000253
-Tempo de destroy: 0.000753
-Tempo geral: 0.156080
+Letura dos dados: 0.000706
+Ordenação dos vértices: 0.000189
+Cálculo das distâncias: 0.032449
+Ordenação das arestas: 0.121719
+Tempo de cálculo de distâncias e ordenações: 0.154383
+Obtenção da MST: 0.001561
+Identificação dos grupos: 0.000162
+Escrita do arquivo de saída: 0.000309
+Tempo de destroy: 0.000793
+Tempo total: 0.157914

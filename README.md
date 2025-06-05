@@ -21,3 +21,9 @@ make
 ## Links úteis
 
 - https://en.wikipedia.org/wiki/Kruskal%27s_algorithm
+
+### Ao final para transformar em pdf
+
+```bash
+pandoc seu_arquivo.md -o saida.pdf --highlight-style=tango
+```
