@@ -16,11 +16,39 @@ agrupá-los por uma semelhança, que nesse caso será a distância euclidiana en
 
 **descrição das principais decisões de implementacão, incluindo uma justificativa para os algoritmos e estruturas de dados escolhidos.**
 
-Os principais algoritmos
+Os principais algoritmos:
+- Uso do getline e strtok para leitura dos dados dos pontos;
+- Uso de laço duplo para o cálculo da distância dos pontos e os limites escolhidos;
+- Uso do mapeamento de cada distância em uma posição através de uma key gerada pelos índices dos dois pontos;
+- Ordenação dos ID's e distâncias usando o qsort;
+- Kruskal usando UF com compressão de caminho e peso baseado na altura da árvore ao invés do número de elementos. Iteração até n - k;
+- Agrupamento usando laço duplo e os limites escolhidos. Explicação do porque já estar ordenado;
+- Explicando a escrita de dados e como não há forma mais econômica de realizar o processo.
+
+Estruturas de dados:
+- Arrays, muitos arrays;
+- Union-find;
+- Estruturas criadas e o propósito geral de cada uma;
 
 > A ideia central da execução do programa se baseia em criar uma estrutura básica, o tipo Point, que será manipulado em forma de ponteiro no decorrer das nossas estruturas mais abstratas. O ponto armazena o ID e um vetor de m valores que representa as suas coordenadas em $\R^m$. Com o conjunto de pontos lidos, foram calculadas e armazenadas todas distâncias possíveis, em um array, onde cada elemento é um Edge, tipo que armazena o valor da distância em ponto flutuante e o valor inteiro que representa o índice dos dois pontos que são conectados por essa aresta. Como a estrutura só armazena tipos simples, a ideia foi de manipulá-la diretamente ao invés de alocar/desalocar uma quantidade enorme de valores na memória. Tanto o ponto quanto a distância são armazenados em um array dentro de uma estrutura maior, o Graph. É nessa estrutura que será rodado o algoritmo de Kruskal. Como a saída no arquivo espera que os valores estejam ordenados lexicograficamente em termos dos ID's de cada ponto, a ordenação dos pontos é feita logo na criação do grafo. A partir dos pontos ordenados, a lista de distâncias é criada e então ordenada para ser usada no Kruskal. Como retorno da função que realiza o algoritmo de Kruskal, foi criado um novo tipo, Mst, com a referência pra lista de pontos e a estrutura de Union-find. A ideia aqui foi agrupar somente as estruturas necessárias para fazer o agrupamento, e ao mesmo tempo manter uma modularidade com uma estrutura que represente de forma adequada a árvore geradora. O agrupamento se beneficia da ordenação prévia dos pontos em termos dos ID's e itera sobre cada um dos pontos, até preencher os K grupos desejados, comparando a raiz do ponto atual com a raiz do primeiro ponto de cada grupo já existente. Se a raiz desse ponto não é igual a de algum dos grupos, então um novo grupo é formado. Assim cada um dos k grupos é preenchido. Para armazenar o conjunto de pontos a ser imprimidos, foi criada a estrutura Clusters, contendo o array onde cada elemento é a referência para um cluster, já ordenado. Então essa estrutura é passada para a função de escrita no arquivo, que simplesmente itera sobre os k grupos, escrevendo cada elemento até o fim do grupo e então inserindo o caracter \n.
 
+## Análise de complexidade
 
+**uma breve análise de complexidade (assim como vista em aula) sobre as principais partes (passos) de sua implementação.**
+
+### Leitura de dados
+
+| Operação | Frequência | Complexidade aproximada (~) |
+| ----------|----------------| --------------------------------------|
+| Declaração de variável | $$6 + 4\mathnormal {N}$$| $$\mathnormal {N}$$ |
+| Comando de atribuição | $$\frac k {10} + 1$$ |  |
+
+### Cálculo das distâncias
+
+| Operação | Frequência | Complexidade aproximada (~) |
+| ----------|----------------| --------------------------------------|
+| Declaração de variável | $$\mathnormal {}$$| $$\mathnormal {}$$ |
+| Comando de atribuição | $$ $$ | $$ $$ |
 
 
 

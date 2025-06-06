@@ -1,74 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
 #include "point/point.h"
 #include "graph/graph.h"
+#include "union_find/union_find.h"
 #include "kruskal/kruskal.h"
 #include "io/io.h"
-#include "union_find/union_find.h"
+
 
 int main(int argc, char *argv[])
-{
-    if (argc < 4) {
+{   // Testa se a linha de comando contém a quantidade de argumentos correta
+    if (argc != 4) {
         perror("Uso: ./trab1 <entrada> <k> <saida>\n");
         exit(1);
     }
-
+    // Converte a string da linha de comando para o inteiro k
     int k = atoi(argv[2]);
     int num_points;
-    double general_time_taken = 0;
-    clock_t start, stop;
-    start = clock();
+
+    // Leitura dos dados
     Point **points = read_points(argv[1], &num_points);
     if (k < 1 || k > num_points) {
         perror("Valor de k inválido!\n");
         exit(1);
     }
-    stop = clock();
-    double time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
-    general_time_taken += time_taken;
-    printf("Letura dos dados: %f\n", time_taken);
 
-    start = clock();
+    // Cálculo de distâncias e ordenações
     Graph *g = graph_construct(points, num_points);
-    stop = clock();
-    time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
-    general_time_taken += time_taken;
-    printf("Tempo de cálculo de distâncias e ordenações: %f\n", time_taken);
 
-    start = clock();
+    // Algoritmo de Kruskal e obtenção da MST
     Mst *m = kruskal(g, k);
-    stop = clock();
-    time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
-    general_time_taken += time_taken;
-    printf("Obtenção da MST: %f\n", time_taken);
 
-    start = clock();
+    // Agrupamento
     Clusters *c = clustering(m, k);
-    stop = clock();
-    time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
-    general_time_taken += time_taken;
-    printf("Identificação dos grupos: %f\n", time_taken);
 
-    start = clock();
+    // Escrita do arquivo de saída
     write_clusters(argv[3], c);
-    stop = clock();
-    time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
-    general_time_taken += time_taken;
-    printf("Escrita do arquivo de saída: %f\n", time_taken);
 
-    start = clock();
+    // Desalocação das estruturas restantes
     graph_destroy(g);
     mst_destroy(m);
     clusters_destroy(c);
-    stop = clock();
-    time_taken = ((double)stop - start) / CLOCKS_PER_SEC;
-    general_time_taken += time_taken;
-    printf("Tempo de destroy: %f\n", time_taken);
-
-    printf("Tempo total: %f\n", general_time_taken);
 
     return 0;
 }
